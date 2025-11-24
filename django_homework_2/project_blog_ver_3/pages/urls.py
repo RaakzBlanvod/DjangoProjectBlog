@@ -1,8 +1,6 @@
 from django.urls import path
 from .views import about, rules, StaticPageView, csrf_failure, page_not_found, server_error
 
-app_name = 'pages'
-
 urlpatterns = [
     path('about/', about, name='about'),
     path('rules/', rules, name='rules'),

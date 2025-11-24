@@ -60,7 +60,7 @@ def category_posts(request, category_slug):
 class UserRegistrationView(CreateView):
     form_class = RegistrationForm
     template_name = 'registration/registration_form.html'
-    success_url = reverse_lazy('blog:index')
+    success_url = reverse_lazy('index')
 
 
 class UserProfileView(DetailView):
@@ -99,7 +99,7 @@ class UserProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return self.request.user == user
 
     def get_success_url(self):
-        return reverse_lazy('blog:profile', kwargs={'username': self.object.username})
+        return reverse_lazy('profile', kwargs={'username': self.object.username})
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -112,7 +112,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('blog:profile', kwargs={'username': self.request.user.username})
+        return reverse_lazy('profile', kwargs={'username': self.request.user.username})
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -126,7 +126,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == post.author
 
     def get_success_url(self):
-        return reverse_lazy('blog:post_detail', kwargs={'post_id': self.object.id})
+        return reverse_lazy('post_detail', kwargs={'post_id': self.object.id})
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -139,7 +139,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == post.author
     
     def get_success_url(self):
-        return reverse_lazy('blog:profile', kwargs={'username': self.request.user.username})
+        return reverse_lazy('profile', kwargs={'username': self.request.user.username})
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
@@ -153,7 +153,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse_lazy('blog:post_detail', kwargs={'post_id': self.kwargs['post_id']})
+        return reverse_lazy('post_detail', kwargs={'post_id': self.kwargs['post_id']})
 
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -166,7 +166,7 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == comment.author
     
     def get_success_url(self):
-        return reverse_lazy('blog:post_detail', kwargs={'post_id': self.kwargs['post_id']})
+        return reverse_lazy('post_detail', kwargs={'post_id': self.kwargs['post_id']})
 
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -179,7 +179,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == comment.author
     
     def get_success_url(self):
-        return reverse_lazy('blog:post_detail', kwargs={'post_id': self.kwargs['post_id']})
+        return reverse_lazy('post_detail', kwargs={'post_id': self.kwargs['post_id']})
 
 def get_categories(request):
     categories = Category.objects.filter(is_published=True)
